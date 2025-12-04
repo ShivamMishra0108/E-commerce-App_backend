@@ -13,14 +13,18 @@ const PORT = 3000;
 const DB = "mongodb+srv://shivammishra6339_db_user:shivamMongo@cluster0.k0pilin.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
+
 app.use(express.json());
 
 
 app.use('/api/auth', authRouter);
-app.use('/api/banner', bannerRouter);          
-app.use('/api/categories', categoryRouter);   
-app.use('/api/subcategories', subCategoryRouter);
+app.use(bannerRouter);          
+app.use(categoryRouter);   
+app.use(subCategoryRouter);
 app.use('/api/products', productRouter);
 app.use('/api/reviews', productReviewRouter);
 
