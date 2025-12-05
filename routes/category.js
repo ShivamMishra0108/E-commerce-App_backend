@@ -32,4 +32,19 @@ categoryRouter.get('/api/get-categories', async (req, res) => {
     }
 });
 
+
+categoryRouter.delete("/api/delete-categories", async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (!ids || !Array.isArray(ids)) {
+      return res.status(400).json({ error: "IDs are required" });
+    }
+
+    await Category.deleteMany({ _id: { $in: ids } });
+
+    res.json({ message: "Categories deleted successfully" });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 module.exports = categoryRouter;
