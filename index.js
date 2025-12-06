@@ -27,7 +27,7 @@ app.use('/api/auth', authRouter);
 app.use(bannerRouter);          
 app.use(categoryRouter);   
 app.use(subCategoryRouter);
-app.use('/api/products', productRouter);
+app.use(productRouter);
 app.use('/api/reviews', productReviewRouter);
 
 

@@ -16,12 +16,11 @@ categoryRouter.post('/api/upload-categories', async (req, res) => {
         res.status(201).json(category);
 
     } catch (e) {
-        console.log(e);  // <-- FIXED
+        console.log(e);  
         res.status(500).json({ error: e.message });
     }
 });
 
-// GET All Categories
 categoryRouter.get('/api/get-categories', async (req, res) => {
     try {
         const categories = await Category.find();
