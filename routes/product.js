@@ -4,12 +4,12 @@ const Product = require('../models/product');
 const productRouter = express.Router();
 
 // CREATE product
-productRouter.post('/api/upload-product', async (req, res) => {
+productRouter.post('/api/upload-products', async (req, res) => {
   try {
     const { productName, productPrice, quantity, description, category, subCategory, image, popular, recommend } = req.body;
 
     // Validate required fields
-    if (!productName || !productPrice || !quantity || !description || !category || !subCategory || !image || image.length === 0) {
+    if (!productName || !productPrice || !quantity || !description || !category || !subCategory || !image) {
       return res.status(400).json({ error: "All fields including at least one image are required" });
     }
 
