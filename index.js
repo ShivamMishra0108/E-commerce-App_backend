@@ -8,7 +8,7 @@ const categoryRouter = require('./routes/category');
 const subCategoryRouter = require('./routes/sub_category');
 const productRouter = require('./routes/product');
 const productReviewRouter = require('./routes/product_review');
-const deleteRouter = require('./routes/delete');
+const VendorRouter = require('./routes/vendor');
 
 
 const PORT = 3000;
@@ -29,6 +29,7 @@ app.use(categoryRouter);
 app.use(subCategoryRouter);
 app.use(productRouter);
 app.use('/api/reviews', productReviewRouter);
+app.use(VendorRouter);
 
 
 // Test server

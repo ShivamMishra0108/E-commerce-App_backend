@@ -63,7 +63,7 @@ authRouter.post('/signin', async (req, res) => {
     // Remove sensitive info
     const { password: _, ...userWithoutPassword } = findUser._doc;
 
-    res.status(200).json({ token, ...userWithoutPassword });
+    res.status(200).json({ token,user:userWithoutPassword });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
