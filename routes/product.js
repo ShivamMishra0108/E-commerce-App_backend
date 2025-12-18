@@ -6,10 +6,13 @@ const productRouter = express.Router();
 // CREATE product
 productRouter.post('/api/upload-products', async (req, res) => {
   try {
-    const { productName, productPrice, quantity, description, category,vendorId, fullName, subCategory, image, popular, recommend } = req.body;
+    const { productName, productPrice, quantity, description, category, vendorId, fullName, subCategory, images, popular, recommend } = req.body;
 
     // Validate required fields
-    if (!productName || !productPrice || !quantity || !description || !category || !vendorId || !fullName || !subCategory || !image) {
+    if (!productName || productPrice == null || quantity == null
+      || !description ||
+      !category || !vendorId || !fullName || !subCategory ||
+      !images || !Array.isArray(images) || images.length === 0) {
       return res.status(400).json({ error: "All fields including at least one image are required" });
     }
 
@@ -22,17 +25,17 @@ productRouter.post('/api/upload-products', async (req, res) => {
       vendorId,
       fullName,
       subCategory,
-      image,
-      popular: popular ?? true,   
+      images,
+      popular: popular ?? true,
       recommend: recommend ?? false
     });
-     console.log(product);
+    console.log(product);
     await product.save();
     res.status(201).json(product);
 
   } catch (e) {
-     console.log(e);  
-        res.status(500).json({ error: e.message });
+    console.log(e);
+    res.status(500).json({ error: e.message });
   }
 });
 
@@ -48,7 +51,7 @@ productRouter.get('/api/get-products', async (req, res) => {
 });
 
 // GET popular products
-productRouter.get('/popular', async (req, res) => {
+productRouter.get('/api/popular-products', async (req, res) => {
   try {
     const popularProducts = await Product.find({ popular: true });
     res.json(popularProducts);
@@ -58,7 +61,7 @@ productRouter.get('/popular', async (req, res) => {
 });
 
 // GET recommended products
-productRouter.get('/recommended', async (req, res) => {
+productRouter.get('/api/recommended-products', async (req, res) => {
   try {
     const recommendedProducts = await Product.find({ recommend: true });
     res.json(recommendedProducts);

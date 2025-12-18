@@ -42,16 +42,6 @@ subCategoryRouter.get("/api/get-subcategories", async (req, res) => {
 });
 
 
-// subCategoryRouter.get('/api/get-categories/:CategoryName/get-subcategories', async (req, res) =>{
-//   try {
-//     const {categoryName} = req.params;
-
-//     const subCategories = await SubCategory.find({categoryName:categoryName});
-//   } catch (e) {
-    
-//   }
-// });
-
 subCategoryRouter.get('/api/get-categories/:categoryName/get-subcategories', async (req, res) => {
   try {
     const { categoryName } = req.params;
