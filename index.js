@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 const authRouter = require('./routes/auth');
 const bannerRouter = require('./routes/banner');
@@ -30,6 +31,7 @@ app.use(subCategoryRouter);
 app.use(productRouter);
 app.use('/api/reviews', productReviewRouter);
 app.use(VendorRouter);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // Test server
