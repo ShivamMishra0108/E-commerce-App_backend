@@ -70,6 +70,22 @@ productRouter.get('/api/recommended-products', async (req, res) => {
   }
 });
 
+// Get products by Category:
+productRouter.get('/api/products-by-category/:category', async(req, res) => {
+try {
+  const {category} = req.params;
+  const products = await Product.find({category});
+  if(!products || products.length == 0){
+    return res.status(404).json({msg: "Product not found"});
+  }
+  else{
+    return res.status(200).json(products);
+  }
+} catch (error) {
+  res.status(500).json({error: e.message});
+}
+});
+
 
 productRouter.delete("/api/delete-products", async (req, res) => {
   try {
