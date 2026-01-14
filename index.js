@@ -10,7 +10,8 @@ const subCategoryRouter = require('./routes/sub_category');
 const productRouter = require('./routes/product');
 const productReviewRouter = require('./routes/product_review');
 const VendorRouter = require('./routes/vendor');
-const orderRouter = require('./routes/order');
+const OrderRouter = require('./routes/order')
+
 
 
 const PORT = 3000;
@@ -33,8 +34,7 @@ app.use(productRouter);
 app.use('/api/reviews', productReviewRouter);
 app.use(VendorRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/api',orderRouter);
-
+app.use( OrderRouter);
 
 // Test server
 app.get('/', (req, res) => res.send("Server is running"));

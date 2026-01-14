@@ -69,4 +69,24 @@ authRouter.post('/signin', async (req, res) => {
   }
 });
 
+authRouter.put('/user/:id', async (req, res) => {
+  try {
+    const {id} = req.params;
+
+    const {state, city, locality} = req.body;
+
+    const updatedUser = await User.findByIdandUpdate(
+      id,
+      {state, city, locality},
+      {new: true},
+    );
+
+    if(!updatedUser){
+      return res.status(404).json({error: "User Not Found"});
+    }
+    return res.status(200).json(updatedUser);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
 module.exports = authRouter;

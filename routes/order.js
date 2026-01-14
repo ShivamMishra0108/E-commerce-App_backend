@@ -1,9 +1,9 @@
 const express = require('express');
-const orderRouter = express.Router();
+const OrderRouter = express.Router();
 const Order = require('../models/order');
 
 
-orderRouter.post('/order', async(req, res) => {
+OrderRouter.post('/api/orders', async(req, res) => {
     try {
         const {
             fullName,
@@ -18,9 +18,10 @@ orderRouter.post('/order', async(req, res) => {
             image,
             buyerId,
             vendorId,
+            processing,
+            delivered
         } = req.body;
 
-        const createdAt = new Date().now()
 
         const order = new Order({
             fullName,
@@ -35,7 +36,8 @@ orderRouter.post('/order', async(req, res) => {
             image,
             buyerId,
             vendorId,
-            createdAt
+            processing,
+            delivered,
         });
 
         await order.save();
@@ -46,4 +48,4 @@ orderRouter.post('/order', async(req, res) => {
     }
 });
 
-module.exports = orderRouter;
+module.exports = OrderRouter;
