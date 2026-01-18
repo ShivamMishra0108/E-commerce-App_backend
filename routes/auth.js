@@ -75,7 +75,7 @@ authRouter.put('/user/:id', async (req, res) => {
 
     const {state, city, locality} = req.body;
 
-    const updatedUser = await User.findByIdandUpdate(
+    const updatedUser = await User.findByIdAndUpdate(
       id,
       {state, city, locality},
       {new: true},
