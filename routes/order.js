@@ -55,7 +55,7 @@ OrderRouter.get('/api/orders/:buyerId', async (req, res) => {
         const orders = await Order.find({buyerId});
 
         if(orders.length == 0){
-            res.status(404).json({msg: "No orders found"});
+            return res.status(404).json({msg: "No orders found"});
         }
 
         return res.status(200).json(orders);
