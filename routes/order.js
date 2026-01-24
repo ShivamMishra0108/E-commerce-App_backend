@@ -3,7 +3,7 @@ const OrderRouter = express.Router();
 const Order = require('../models/order');
 
 
-OrderRouter.post('/api/orders', async(req, res) => {
+OrderRouter.post('/orders', async(req, res) => {
     try {
         const {
             fullName,
@@ -48,12 +48,49 @@ OrderRouter.post('/api/orders', async(req, res) => {
     }
 });
 
-OrderRouter.get('/api/orders/:buyerId', async (req, res) => {
+OrderRouter.get('/orders/:buyerId', async (req, res) => {
     
     try {
         const{buyerId} = req.params;
 
         const orders = await Order.find({buyerId});
+
+        // if(orders.length == 0){
+        //     return res.status(404).json({msg: "No orders found"});
+        // }
+
+        return res.status(200).json(orders);
+
+    } catch (e) {
+        return res.status(500).json({error: e.message});
+    }
+});
+
+OrderRouter.delete('/orders/delete/:id',async(req, res) => {
+    try {
+        const{id} = req.params;
+
+        const deletedOrder = await Order.findByIdAndDelete(id);
+
+        if(!deletedOrder){
+            return res.status(404).json({msg: "No Order Found"});
+        }
+        else{
+            return res.status(200).json({msg: "Order Deleted Successfully"});
+        }
+    } catch (e) {
+        return res.status(500).json({error: e.message});
+    }
+});
+
+
+
+OrderRouter.get('/orders/vendor/:vendorId', async (req, res) => {
+    
+    try {
+        const{vendorId} = req.params;
+
+        const orders = await Order.find({vendorId});
 
         // if(orders.length == 0){
         //     return res.status(404).json({msg: "No orders found"});

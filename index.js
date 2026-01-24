@@ -34,7 +34,7 @@ app.use(productRouter);
 app.use('/api/reviews', productReviewRouter);
 app.use(VendorRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use( OrderRouter);
+app.use('/api', OrderRouter);
 
 // Test server
 app.get('/', (req, res) => res.send("Server is running"));
