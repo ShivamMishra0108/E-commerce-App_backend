@@ -103,9 +103,34 @@ OrderRouter.get('/orders/vendor/:vendorId', async (req, res) => {
     }
 });
 
+
+OrderRouter.patch('/orders/:id/delivered', async (req ,res) => {
+    try {
+        const {id} = req.params;
+
+        const updatedOrder = await Order.findByIdAndUpdate(
+            id,
+            {delivered:true},
+            {new:true}
+            
+        );
+
+        if(!updatedOrder){
+            return res.status(404).json({msg: "Order not found"})
+        }
+        else{
+            return res.status(200).json("Updated Order");
+        }
+    } catch (e) {
+        return res.status(500).json({error: e.message});
+        
+    }
+});
+
+
 OrderRouter.patch('/orders/:id/processing', async (req ,res) => {
     try {
-        const id = req.params;
+        const {id} = req.params;
 
         const updatedOrder = await Order.findByIdAndUpdate(
             id,
@@ -124,6 +149,6 @@ OrderRouter.patch('/orders/:id/processing', async (req ,res) => {
         return res.status(500).json({error: e.message});
         
     }
-})
+});
 
 module.exports = OrderRouter;
