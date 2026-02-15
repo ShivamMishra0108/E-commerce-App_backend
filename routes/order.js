@@ -105,12 +105,13 @@ OrderRouter.get('/orders/vendor/:vendorId', async (req, res) => {
 
 
 OrderRouter.patch('/orders/:id/delivered', async (req ,res) => {
+      console.log("PATCH delivered HIT");
     try {
         const {id} = req.params;
 
         const updatedOrder = await Order.findByIdAndUpdate(
             id,
-            {delivered:true},
+            {delivered:true, processing: false},
             {new:true}
             
         );
@@ -134,7 +135,7 @@ OrderRouter.patch('/orders/:id/processing', async (req ,res) => {
 
         const updatedOrder = await Order.findByIdAndUpdate(
             id,
-            {processing:false},
+            {processing:false, delivered: false},
             {new:true}
             
         );

@@ -13,14 +13,15 @@ const VendorRouter = require('./routes/vendor');
 const OrderRouter = require('./routes/order')
 
 
-
 const PORT = 3000;
 const DB = "mongodb+srv://shivammishra6339_db_user:shivamMongo@cluster0.k0pilin.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 const app = express();
+
 app.use(cors({
   origin: "*",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
 
 app.use(express.json());
@@ -31,7 +32,7 @@ app.use(bannerRouter);
 app.use(categoryRouter);   
 app.use(subCategoryRouter);
 app.use(productRouter);
-app.use('/api/reviews', productReviewRouter);
+app.use('/api', productReviewRouter);
 app.use(VendorRouter);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api', OrderRouter);
