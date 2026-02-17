@@ -4,9 +4,15 @@ const Product = require('../models/product');
 
 const productReviewRouter = express.Router();
 
-productReviewRouter.post('/product-review',async (req, res) => {
+productReviewRouter.post('/product-review', async (req, res) => {
     try {
         const {buyerId, email, fullName, productId, rating, review} = req.body;
+
+        const existingReview = await ProductReview.findOne({buyerId,productId});
+
+        if(existingReview){
+            return res.status(404).json({msg: "You have already reviewed thid product"});
+        }
         const reviews = new ProductReview({
             buyerId, email, fullName, productId, rating, review});
             await reviews.save();
