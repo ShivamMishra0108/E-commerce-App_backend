@@ -152,4 +152,14 @@ OrderRouter.patch('/orders/:id/processing', async (req ,res) => {
     }
 });
 
+
+OrderRouter.get('/orders',async (req, res) => {
+    try {
+        const orders = await Order.find();
+
+        return res.status(200).json(orders);
+    } catch (e) {
+        return res.status(500).json({error: e.message});
+    }
+})
 module.exports = OrderRouter;
