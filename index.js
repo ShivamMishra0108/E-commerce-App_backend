@@ -48,3 +48,9 @@ mongoose.connect(DB)
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+
+
+
+
+// user: shivam@gmail.com // password: 1234
+// vendor: Vendor@gmail.com // password: 1234

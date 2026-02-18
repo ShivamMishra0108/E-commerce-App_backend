@@ -89,4 +89,16 @@ authRouter.put('/user/:id', async (req, res) => {
     res.status(500).json({ error: e.message });
   }
 });
+
+
+authRouter.get('/user', async (req, res) => {
+  try {
+    const users = await User.find().select('-password');
+    return res.status(200).json(users);
+  } catch (e) {
+    res.status(500).json({error: e.message});
+  }
+});
+
+
 module.exports = authRouter;

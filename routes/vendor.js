@@ -73,10 +73,10 @@ VendorRouter.post('/api/vendor/signin', async (req, res) => {
 // GET All Banners
 VendorRouter.get('/api/vendor/get-vendor', async (req, res) => {
     try {
-        const vendors = await Vendor.find();
+        const vendors = await Vendor.find().select('-password');
         res.json(vendors);
     } catch (e) {
-        res.status(500).json({ error: e.message });
+       return  res.status(500).json({ error: e.message });
     }
 });
 
