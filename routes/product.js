@@ -1,10 +1,10 @@
 const express = require('express');
 const Product = require('../models/product');
-
+const {auth,vendorAuth} = require('../middleware/jsonwebtoken');
 const productRouter = express.Router();
 
 // CREATE product
-productRouter.post('/api/upload-products', async (req, res) => {
+productRouter.post('/api/upload-products',auth,vendorAuth, async (req, res) => {
   try {
     const { productName, productPrice, quantity, description, category, vendorId, fullName, subCategory, images, popular, recommend } = req.body;
 
@@ -81,11 +81,47 @@ try {
   else{
     return res.status(200).json(products);
   }
-} catch (error) {
+} catch (e) {
   res.status(500).json({error: e.message});
 }
 });
 
+productRouter.get('/api/products-by-subcategory/:productId',async(req,res)=>{
+  try {
+    const {subCategory} = req.params;
+    const product = await Product.findById({_id});
+
+    if(!product){
+      return res.status(404).json({msg: "Product not found"});
+    }else{
+      const relatedProduct = await Product.find({
+        subCategory:product.subCategory,
+        _id:{$ne:product._id} // Excluding current product
+      });
+
+      if(!relatedProduct || relatedProduct.length == 0){
+        return res.status(404).json({msg: "No related products found"});
+      }
+
+      return res.status(200).json(relatedProduct);
+    }
+  } catch (e) {
+    res.status(500).json({error: e.message});
+  }
+});
+
+productRouter.get('/api/topRated-products', async (req,res) =>{
+  try {
+    const ratedProducts = await Product.find({}).sort({averageRating: -1}).limit(10);
+
+    if(!ratedProducts || ratedProducts.length == 0){
+      return res.status(404).json({msg: "No top rated products found"});
+    }
+    return res.status(200).json(ratedProducts);
+  } catch (error) {
+    res.status(500).json({error: e.message});
+  }
+});
 
 productRouter.delete("/api/delete-products", async (req, res) => {
   try {
