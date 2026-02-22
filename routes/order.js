@@ -1,9 +1,9 @@
 const express = require('express');
 const OrderRouter = express.Router();
 const Order = require('../models/order');
+const {auth, vendorAuth} = require('../middleware/jsonwebtoken');
 
-
-OrderRouter.post('/orders', async(req, res) => {
+OrderRouter.post('/orders',auth, async(req, res) => {
     try {
         const {
             fullName,
@@ -48,7 +48,7 @@ OrderRouter.post('/orders', async(req, res) => {
     }
 });
 
-OrderRouter.get('/orders/:buyerId', async (req, res) => {
+OrderRouter.get('/orders/:buyerId',auth, async (req, res) => {
     
     try {
         const{buyerId} = req.params;
@@ -85,7 +85,7 @@ OrderRouter.delete('/orders/delete/:id',async(req, res) => {
 
 
 
-OrderRouter.get('/orders/vendor/:vendorId', async (req, res) => {
+OrderRouter.get('/orders/vendor/:vendorId',auth,vendorAuth, async (req, res) => {
     
     try {
         const{vendorId} = req.params;
