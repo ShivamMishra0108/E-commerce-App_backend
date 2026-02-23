@@ -86,27 +86,26 @@ try {
 }
 });
 
-productRouter.get('/api/products-by-subcategory/:productId',async(req,res)=>{
+productRouter.get('/api/products-by-subcategory/:productId', async (req, res) => {
   try {
-    const {subCategory} = req.params;
-    const product = await Product.findById({_id});
+    const { productId } = req.params;
 
-    if(!product){
-      return res.status(404).json({msg: "Product not found"});
-    }else{
-      const relatedProduct = await Product.find({
-        subCategory:product.subCategory,
-        _id:{$ne:product._id} // Excluding current product
-      });
+    const product = await Product.findById(productId);
 
-      if(!relatedProduct || relatedProduct.length == 0){
-        return res.status(404).json({msg: "No related products found"});
-      }
-
-      return res.status(200).json(relatedProduct);
+    if (!product) {
+      return res.status(404).json({ msg: "Product not found" });
     }
+
+    const relatedProduct = await Product.find({
+      subCategory: product.subCategory,
+      _id: { $ne: product._id }
+    });
+
+    return res.status(200).json(relatedProduct);
+
   } catch (e) {
-    res.status(500).json({error: e.message});
+    console.error(e);
+    res.status(500).json({ error: e.message });
   }
 });
 
